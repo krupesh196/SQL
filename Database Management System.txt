@@ -1,0 +1,438 @@
+Database Management System:
+
+Relational Database : RDBMS : SQL
+Structured Query Language
+Software Tools :
+MySQL
+Oracle
+PosgresSQL
+sqllite
+
+Cloud :
+AWS : Amazon Web Services
+Azure : Microsoft : TQL : Transact Query Language
+Google Cloud
+
+Database : collection of tables : Schema
+
+Database vs Schema :
+
+Database : collection
+
+Schema : 
+A database schema is the "blueprint" or formal structure of a database. 
+It defines how data is organized, how tables are structured, 
+and how they relate to one another. While the schema acts as the skeleton, 
+it does not actually contain any data; the data present at a 
+specific point in time is instead called a database instance.
+
+tables : collection of rows and columns
+rows : tuple : record
+columns : fields
+
+SQL (Structured Query Language) commands are categoriezed into different "languages" based on whether
+they affect the database's structure, the actual data, or the permissions.
+
+DDL : Data Definition Language : Create, Alter, Drop, Truncate, Rename
+
+DML : Data Manipulation Language : Insert, Update, Delete, Call, Explain Call
+
+DCL : Data Control Language : Grant, Revoke
+
+TCL : Transaction Control Language : Commit, Rollback, Savepoints
+
+A : Atomicity
+
+C : Consistency
+
+I : Isolation
+
+D : Durability
+
+DQL : Data Query Language : Select
+
+TQL : Trasact Query Language
+
+PL/SQL : 
+
+Advaced SQL Queries : 
+view : 
+CTE : Common Table Expression
+Window Fuctions
+
+Database : 
+SQL Queries : 
+show databases : this query will list all the database present in mysql
+
+create database <database-name>;
+
+table : 
+row : tuple : record
+column : fields
+
+create table :
+create table <table-name> <fieldname data types>;
+
+Data Types : 
+Numerical Data :
+Integer : 2, 4, 5, 6, 7
+smallint : 2 bytes
+int : 4 bytes
+mediumint : 3 bytes
+tinyint : 1 byte
+bigint : 8 bytes
+
+Decimal : 2.564, 3.14567
+float
+double
+decimal(8, 2) :
+
+student :
+id : int
+
+Contraints : 
+Primary Key : only one field on one table
+Foreign Key : parent child relationship : connect multiple tables
+Not Null : not insert null value
+Unique Key : multiple fields in one table
+Default : insert default value if value will not pass
+Check : condition will be check
+
+Aggregate Function : 
+Count(): Return the number of rows that match a specific condition.
+
+Count(*): includes all rows, even those with NULL values.
+
+Count(column) only counts rows where the column value is not null.
+
+Sum(): Calculates the total sum of values in a numeric column, ignoring NULL values.
+
+Avg(): Computes the average (mean) of a numeric column by dividing the sum by the count of not-NULL values.
+
+Max(): Retrieves the highest (maximum) value in a set, working with numbers, dates, and strings.
+
+Min(): Retrieves the lowest (minimum) value in a set.
+
+Functions And Operators :
+
+Function :
+String function : 
+Date and Time function : 
+
+Operators : 
+like : pattern matching
+abc% : starts with abc and end with anything
+%abc : starts with anything and end with abc
+
+Arithmetic : 
+
+Relational : 
+Decision control structure : 
+where
+
+Logical :
+
+Bitwise : 
+
+Ternary : 
+
+
+create table student_data(ID int primary key auto_increment, Name varchar(20) unique, Email varchar(30) unique, Phone bigint, About varchar(50));
+
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| ID    | int         | NO   | PRI | NULL    | auto_increment |
+| Name  | varchar(20) | YES  | UNI | NULL    |                |
+| Email | varchar(30) | YES  | UNI | NULL    |                |
+| Phone | bigint      | YES  |     | NULL    |                |
+| About | varchar(50) | YES  |     | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+
+mysql> create table student(id int, name varchar(50), email varchar(50), phone bigint, about varchar(50));
+
+mysql> describe student;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | YES  |     | NULL    |       |
+| name  | varchar(50) | YES  |     | NULL    |       |
+| email | varchar(50) | YES  |     | NULL    |       |
+| phone | bigint      | YES  |     | NULL    |       |
+| about | varchar(50) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table student modify column id int primary key not null auto_increment;
+
+mysql> describe student;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int         | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(50) | YES  |     | NULL    |                |
+| email | varchar(50) | YES  |     | NULL    |                |
+| phone | bigint      | YES  |     | NULL    |                |
+| about | varchar(50) | YES  |     | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+
+mysql> alter table student modify column name varchar(50) unique;
+
+mysql> alter table student modify column email varchar(50) unique;
+
+mysql> alter table student modify column phone bigint default '1637017926';
+
+mysql> describe student;
++-------+-------------+------+-----+------------+----------------+
+| Field | Type        | Null | Key | Default    | Extra          |
++-------+-------------+------+-----+------------+----------------+
+| id    | int         | NO   | PRI | NULL       | auto_increment |
+| name  | varchar(50) | YES  | UNI | NULL       |                |
+| email | varchar(50) | YES  | UNI | NULL       |                |
+| phone | bigint      | YES  |     | 1637017926 |                |
+| about | varchar(50) | YES  |     | NULL       |                |
++-------+-------------+------+-----+------------+----------------+
+
+\\
+Primary key : create table employee(emp_id int, emp_name varchar(100), Department varchar(10), Designation varchar(50), DOJ date, salary float, primary key(emp_id));
+\\
+
+mysql> alter table employee modify column emp_id int auto_increment;
+
+mysql> describe employee;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| emp_id      | int          | NO   | PRI | NULL    | auto_increment |
+| emp_name    | varchar(100) | YES  |     | NULL    |                |
+| Department  | varchar(10)  | YES  |     | NULL    |                |
+| Designation | varchar(50)  | YES  |     | NULL    |                |
+| DOJ         | date         | YES  |     | NULL    |                |
+| salary      | float        | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+
+mysql> insert into employee values(1, "Krupesh", "A/R", "Associate Analyst", "2026-04-28", 13000.00);
+
+mysql> insert into employee values(NULL, "Brielle Williamson", "Software", "Integration Specialist", "2012-12-02", 372000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employee values(NULL, "Garrett Winters", "Finance", "Accountant", "2011-07-25", 170750);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employee values(NULL, "Caesar", "sales", "Sales Support", "2011-12-12", 106450), (NULL, "Sonya Frost", "Software", "Sofyware Engineer", "2008-12-13", 133600), (NULL, "Herrod Chandler", "Sales", "Sales Executive", "2012-08-06", 127500), (NULL, "Jena Gaines", "HQ", "Office Manager", "2008-12-19", 90560);
+
+mysql> select * from employee;
++--------+--------------------+------------+------------------------+------------+--------+
+| emp_id | emp_name           | Department | Designation            | DOJ        | salary |
++--------+--------------------+------------+------------------------+------------+--------+
+|      1 | Krupesh            | A/R        | Associate Analyst      | 2026-04-28 |  13000 |
+|      2 | Brielle Williamson | Software   | Integration Specialist | 2012-12-02 | 372000 |
+|      3 | Garrett Winters    | Finance    | Accountant             | 2011-07-25 | 170750 |
+|      4 | Caesar             | sales      | Sales Support          | 2011-12-12 | 106450 |
+|      5 | Sonya Frost        | Software   | Sofyware Engineer      | 2008-12-13 | 133600 |
+|      6 | Herrod Chandler    | Sales      | Sales Executive        | 2012-08-06 | 127500 |
+|      7 | Jena Gaines        | HQ         | Office Manager         | 2008-12-19 |  90560 |
++--------+--------------------+------------+------------------------+------------+--------+
+
+
+//18-05-2026//
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mdb                |
+| mysql              |
+| performance_schema |
+| sakila             |
+| student_data       |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> use student_data;
+
+mysql> show tables;
++------------------------+
+| Tables_in_student_data |
++------------------------+
+| employee               |
+| student                |
++------------------------+
+2 rows in set (0.01 sec)
+
+mysql> create table employees(empId int primary key auto_increment, empName varchar(50), emp_email varchar(50) unique, age int, city varchar(100));
+
+mysql> show tables;
++------------------------+
+| Tables_in_student_data |
++------------------------+
+| employee               |
+| employees              |
+| student                |
++------------------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from employees;
+
+mysql> describe employees;
++-----------+--------------+------+-----+---------+----------------+
+| Field     | Type         | Null | Key | Default | Extra          |
++-----------+--------------+------+-----+---------+----------------+
+| empId     | int          | NO   | PRI | NULL    | auto_increment |
+| empName   | varchar(50)  | YES  |     | NULL    |                |
+| emp_email | varchar(50)  | YES  | UNI | NULL    |                |
+| age       | int          | YES  |     | NULL    |                |
+| city      | varchar(100) | YES  |     | NULL    |                |
++-----------+--------------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> insert into employees values(1, "Krupesh", "krupesh@gmail.com", 21, "Vadodara");
+
+mysql> select * from employees;
++-------+---------+-------------------+------+----------+
+| empId | empName | emp_email         | age  | city     |
++-------+---------+-------------------+------+----------+
+|     1 | Krupesh | krupesh@gmail.com |   21 | Vadodara |
++-------+---------+-------------------+------+----------+
+1 row in set (0.00 sec)
+
+mysql> insert into employees(empName, emp_email, age, city) values ("Vidhi", "vidhi@gmail.com", 20, "Vadodara");
+
+mysql> select * from employees;
++-------+---------+-------------------+------+----------+
+| empId | empName | emp_email         | age  | city     |
++-------+---------+-------------------+------+----------+
+|     1 | Krupesh | krupesh@gmail.com |   21 | Vadodara |
+|     2 | Vidhi   | vidhi@gmail.com   |   20 | Vadodara |
++-------+---------+-------------------+------+----------+
+2 rows in set (0.00 sec)
+
+mysql> insert into employees(empName, emp_email, age, city) values
+    -> ("Sakshi", "sakshi@gmail.com", 21, "Ahmedabad"),
+    -> ("Rudra", "rudra@gmail.com", 21, "Padra"),
+    -> ("Divya", "divya@gmail.com", 25, "Vadodara"),
+    -> ("Harsh", "harsh@gmail.com", 21, "Surat"),
+    -> ("Nidhi", "nidhi@gmail.com", 20, "Vapi");
+
+mysql> select * from employees;
++-------+---------+-------------------+------+-----------+
+| empId | empName | emp_email         | age  | city      |
++-------+---------+-------------------+------+-----------+
+|     1 | Krupesh | krupesh@gmail.com |   21 | Vadodara  |
+|     2 | Vidhi   | vidhi@gmail.com   |   20 | Vadodara  |
+|     3 | Sakshi  | sakshi@gmail.com  |   21 | Ahmedabad |
+|     4 | Rudra   | rudra@gmail.com   |   21 | Padra     |
+|     5 | Divya   | divya@gmail.com   |   25 | Vadodara  |
+|     6 | Harsh   | harsh@gmail.com   |   21 | Surat     |
+|     7 | Nidhi   | nidhi@gmail.com   |   20 | Vapi      |
++-------+---------+-------------------+------+-----------+
+
+mysql> select empName, emp_email from employees where age>20;
++---------+-------------------+
+| empName | emp_email         |
++---------+-------------------+
+| Krupesh | krupesh@gmail.com |
+| Sakshi  | sakshi@gmail.com  |
+| Rudra   | rudra@gmail.com   |
+| Divya   | divya@gmail.com   |
+| Harsh   | harsh@gmail.com   |
++---------+-------------------+
+
+mysql> select empName, emp_email from employees where age>20 order by age asc;
++---------+-------------------+
+| empName | emp_email         |
++---------+-------------------+
+| Krupesh | krupesh@gmail.com |
+| Sakshi  | sakshi@gmail.com  |
+| Rudra   | rudra@gmail.com   |
+| Harsh   | harsh@gmail.com   |
+| Divya   | divya@gmail.com   |
++---------+-------------------+
+
+mysql> select empName, emp_email from employees where age>20 order by age desc;
++---------+-------------------+
+| empName | emp_email         |
++---------+-------------------+
+| Divya   | divya@gmail.com   |
+| Krupesh | krupesh@gmail.com |
+| Sakshi  | sakshi@gmail.com  |
+| Rudra   | rudra@gmail.com   |
+| Harsh   | harsh@gmail.com   |
++---------+-------------------+
+
+mysql> select empName, emp_email, age from employees where age>20 order by age desc;
++---------+-------------------+------+
+| empName | emp_email         | age  |
++---------+-------------------+------+
+| Divya   | divya@gmail.com   |   25 |
+| Krupesh | krupesh@gmail.com |   21 |
+| Sakshi  | sakshi@gmail.com  |   21 |
+| Rudra   | rudra@gmail.com   |   21 |
+| Harsh   | harsh@gmail.com   |   21 |
++---------+-------------------+------+
+
+mysql> select max(age) as `Maximum age` from employees;
++-------------+
+| Maximum age |
++-------------+
+|          25 |
++-------------+
+
+mysql> select min(age) as `Minimum age` from employees;
++-------------+
+| Minimum age |
++-------------+
+|          20 |
++-------------+
+
+mysql> select sum(age) as `Total age` from employees;
++-----------+
+| Total age |
++-----------+
+|       149 |
++-----------+
+
+mysql> select avg(age) as `Average age` from employees;
++-------------+
+| Average age |
++-------------+
+|     21.2857 |
++-------------+
+
+mysql> select std(age) as `Standard Deviation age` from employees;
++------------------------+
+| Standard Deviation age |
++------------------------+
+|     1.5779087167410368 |
++------------------------+
+
+mysql> select * from employees;
++-------+---------+-------------------+------+-----------+
+| empId | empName | emp_email         | age  | city      |
++-------+---------+-------------------+------+-----------+
+|     1 | Krupesh | krupesh@gmail.com |   21 | Vadodara  |
+|     2 | Vidhi   | vidhi@gmail.com   |   20 | Vadodara  |
+|     3 | Sakshi  | sakshi@gmail.com  |   21 | Ahmedabad |
+|     4 | Rudra   | rudra@gmail.com   |   21 | Padra     |
+|     5 | Divya   | divya@gmail.com   |   25 | Vadodara  |
+|     6 | Harsh   | harsh@gmail.com   |   21 | Surat     |
+|     7 | Nidhi   | nidhi@gmail.com   |   20 | Vapi      |
++-------+---------+-------------------+------+-----------+
+
+mysql> delete from employees where empId = 7;
+
+mysql> select * from employees;
++-------+---------+-------------------+------+-----------+
+| empId | empName | emp_email         | age  | city      |
++-------+---------+-------------------+------+-----------+
+|     1 | Krupesh | krupesh@gmail.com |   21 | Vadodara  |
+|     2 | Vidhi   | vidhi@gmail.com   |   20 | Vadodara  |
+|     3 | Sakshi  | sakshi@gmail.com  |   21 | Ahmedabad |
+|     4 | Rudra   | rudra@gmail.com   |   21 | Padra     |
+|     5 | Divya   | divya@gmail.com   |   25 | Vadodara  |
+|     6 | Harsh   | harsh@gmail.com   |   21 | Surat     |
++-------+---------+-------------------+------+-----------+
+
