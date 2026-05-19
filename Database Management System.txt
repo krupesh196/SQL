@@ -436,3 +436,106 @@ mysql> select * from employees;
 |     6 | Harsh   | harsh@gmail.com   |   21 | Surat     |
 +-------+---------+-------------------+------+-----------+
 
+//19-05-2026//
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mdb                |
+| mysql              |
+| performance_schema |
+| sakila             |
+| student_data       |
+| sys                |
+| world              |
++--------------------+
+
+mysql> drop mdb;
+
+mysql> drop database mdb;
+
+mysql> create database mdb;
+
+mysql> use mdb;
+Database changed
+mysql> create table employees(empid int, empname varchar(100), email varchar(50), age int, City varchar(20));
+
+mysql> describe employees;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| empid   | int          | YES  |     | NULL    |       |
+| empname | varchar(100) | YES  |     | NULL    |       |
+| email   | varchar(50)  | YES  |     | NULL    |       |
+| age     | int          | YES  |     | NULL    |       |
+| City    | varchar(20)  | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+
+mysql> alter table employees add constraint pk_employee primary key(empid);
+
+mysql> describe employees;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| empid   | int          | NO   | PRI | NULL    |       |
+| empname | varchar(100) | YES  |     | NULL    |       |
+| email   | varchar(50)  | YES  |     | NULL    |       |
+| age     | int          | YES  |     | NULL    |       |
+| City    | varchar(20)  | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+
+mysql> alter table employees add constraint uq_email unique(email);
+
+mysql> describe employees;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| empid   | int          | NO   | PRI | NULL    |       |
+| empname | varchar(100) | YES  |     | NULL    |       |
+| email   | varchar(50)  | YES  | UNI | NULL    |       |
+| age     | int          | YES  |     | NULL    |       |
+| City    | varchar(20)  | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+
+mysql> alter table employees add constraint chk_age check(age>=18);
+
+mysql> describe employees;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| empid   | int          | NO   | PRI | NULL    |       |
+| empname | varchar(100) | YES  |     | NULL    |       |
+| email   | varchar(50)  | YES  | UNI | NULL    |       |
+| age     | int          | YES  |     | NULL    |       |
+| City    | varchar(20)  | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+
+mysql> insert into employees values(101, "Krupesh", "krupesh@gmail.com", 21, "Vadodara");
+
+mysql> insert into employees values(102, "Harsh", "harsh@gmail.com", 17, "Ahmedabad");
+ERROR 3819 (HY000): Check constraint 'chk_age' is violated.
+
+mysql> alter table employees alter City set default 'Mumbai';
+
+mysql> describe employees;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| empid   | int          | NO   | PRI | NULL    |       |
+| empname | varchar(100) | YES  |     | NULL    |       |
+| email   | varchar(50)  | YES  | UNI | NULL    |       |
+| age     | int          | YES  |     | NULL    |       |
+| City    | varchar(20)  | YES  |     | Mumbai  |       |
++---------+--------------+------+-----+---------+-------+
+
+mysql> insert into employees(empid, empname, email, age) values(103, "Rudra", "rudra@gmail.com", 20);
+
+mysql> select * from employees;
++-------+---------+-------------------+------+----------+
+| empid | empname | email             | age  | City     |
++-------+---------+-------------------+------+----------+
+|   101 | Krupesh | krupesh@gmail.com |   21 | Vadodara |
+|   103 | Rudra   | rudra@gmail.com   |   20 | Mumbai   |
++-------+---------+-------------------+------+----------+
+
