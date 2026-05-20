@@ -539,3 +539,79 @@ mysql> select * from employees;
 |   103 | Rudra   | rudra@gmail.com   |   20 | Mumbai   |
 +-------+---------+-------------------+------+----------+
 
+//20-05-2026//
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mdb                |
+| mysql              |
+| performance_schema |
+| sakila             |
+| student_data       |
+| sys                |
+| world              |
++--------------------+
+
+mysql> use mdb;
+Database changed
+mysql> show tables;
++---------------+
+| Tables_in_mdb |
++---------------+
+| employees     |
++---------------+
+
+mysql> create table students(student_id int primary key auto_increment, stident_name varchar(50));
+
+mysql> show tables;
++---------------+
+| Tables_in_mdb |
++---------------+
+| employees     |
+| students      |
++---------------+
+
+mysql> create table subjects(subject_id int primary key auto_increment, subject_name varchar(100));
+
+mysql> drop table students;
+
+mysql> create table students(student_id int primary key auto_increment, student_name varchar(50));
+
+mysql> show tables;
++---------------+
+| Tables_in_mdb |
++---------------+
+| employees     |
+| students      |
+| subjects      |
++---------------+
+
+mysql> create table marks(marks_id int primary key, student_id int, subject_id int, scrore int, test_date date, foreign key(student_id) references students(student_id), foreign key(subject_id) references subjects(subject_id));
+
+mysql> describe marks;
++------------+------+------+-----+---------+-------+
+| Field      | Type | Null | Key | Default | Extra |
++------------+------+------+-----+---------+-------+
+| marks_id   | int  | NO   | PRI | NULL    |       |
+| student_id | int  | YES  | MUL | NULL    |       |
+| subject_id | int  | YES  | MUL | NULL    |       |
+| scrore     | int  | YES  |     | NULL    |       |
+| test_date  | date | YES  |     | NULL    |       |
++------------+------+------+-----+---------+-------+
+
+mysql> alter table marks drop column subject_id, drop foreign key marks_ibfk_2;
+
+mysql> alter table marks drop column student_id, drop foreign key marks_ibfk_1;
+
+mysql> describe marks;
++-----------+------+------+-----+---------+-------+
+| Field     | Type | Null | Key | Default | Extra |
++-----------+------+------+-----+---------+-------+
+| marks_id  | int  | NO   | PRI | NULL    |       |
+| scrore    | int  | YES  |     | NULL    |       |
+| test_date | date | YES  |     | NULL    |       |
++-----------+------+------+-----+---------+-------+
+
