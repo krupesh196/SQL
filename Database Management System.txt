@@ -615,3 +615,123 @@ mysql> describe marks;
 | test_date | date | YES  |     | NULL    |       |
 +-----------+------+------+-----+---------+-------+
 
+// 21-05-2026 //
+mysql> create database student;
+
+mysql> use student;
+Database changed
+mysql> create table student(student_id int primary key auto_increment, student_name varchar(50), student_email varchar(50), age int);
+
+mysql> create table subject(subject_id int primary key auto_increment, subject_name varchar(50));
+
+mysql> create table marks(merks_id int primary key auto_increment, student_id int, subect_id int, score int, test_date date, foreign key (student_id) references student(student_id), foreign key (subect_id) references subject(subject_id));
+
+mysql> show tables;
++-------------------+
+| Tables_in_student |
++-------------------+
+| marks             |
+| student           |
+| subject           |
++-------------------+
+
+mysql> select * from marks;
+
+mysql> describe marks;
++------------+------+------+-----+---------+----------------+
+| Field      | Type | Null | Key | Default | Extra          |
++------------+------+------+-----+---------+----------------+
+| merks_id   | int  | NO   | PRI | NULL    | auto_increment |
+| student_id | int  | YES  | MUL | NULL    |                |
+| subect_id  | int  | YES  | MUL | NULL    |                |
+| score      | int  | YES  |     | NULL    |                |
+| test_date  | date | YES  |     | NULL    |                |
++------------+------+------+-----+---------+----------------+
+
+mysql> alter table marks rename column subect_id to subject_id;
+
+mysql> describe marks;
++------------+------+------+-----+---------+----------------+
+| Field      | Type | Null | Key | Default | Extra          |
++------------+------+------+-----+---------+----------------+
+| merks_id   | int  | NO   | PRI | NULL    | auto_increment |
+| student_id | int  | YES  | MUL | NULL    |                |
+| subject_id | int  | YES  | MUL | NULL    |                |
+| score      | int  | YES  |     | NULL    |                |
+| test_date  | date | YES  |     | NULL    |                |
++------------+------+------+-----+---------+----------------+
+
+mysql> insert into student(student_name) values ('Aarav Sharma'), ('Ishani Verma'), ('Vihhan Gupta'), ('Ananya Iyer'), ('Kabir Singh'), ('Myra Kapoor');
+
+mysql> insert into subject(subject_name) value ('Mathematics'), ('Science'), ('English'), ('History');
+
+mysql> select * from subject;
++------------+--------------+
+| subject_id | subject_name |
++------------+--------------+
+|          1 | Mathematics  |
+|          2 | Science      |
+|          3 | English      |
+|          4 | History      |
++------------+--------------+
+
+mysql> insert into marks(student_id, subject_id, score, test_date) values (1, 1, 85, '2026-03-01'), (1, 2, 78, '2026-03-01'), (1, 3, 92, '2026-03-01'), (1, 4, 70, '2026-03-01'), (2, 1, 95, '2026-03-01'), (2, 2, 88, '2026-03-01'), (2, 3, 80, '2026-03-01'), (2, 4, 85, '2026-03-01'), (3, 1, 45, '2026-03-01'), (3, 2, 50, '2026-03-01'), (3, 3, 55, '2026-03-01'), (3, 4, 40, '2026-03-01'), (4, 1, 88, '2026-03-01'), (4, 2, 92, '2026-03-01'), (4, 3, 85, '2026-03-01'), (4, 4, 90, '2026-03-01'), (5, 1, 60, '2026-03-01'), (5, 2, 65, '2026-03-01'), (5, 3, 70, '2026-03-01'), (5, 4, 62, '2026-03-01'),(1, 1, 92, '2026-04-01'), (1, 2, 85, '2026-04-01');
+
+mysql> select * from marks;
++----------+------------+------------+-------+------------+
+| merks_id | student_id | subject_id | score | test_date  |
++----------+------------+------------+-------+------------+
+|        1 |          1 |          1 |    85 | 2026-03-01 |
+|        2 |          1 |          2 |    78 | 2026-03-01 |
+|        3 |          1 |          3 |    92 | 2026-03-01 |
+|        4 |          1 |          4 |    70 | 2026-03-01 |
+|        5 |          2 |          1 |    95 | 2026-03-01 |
+|        6 |          2 |          2 |    88 | 2026-03-01 |
+|        7 |          2 |          3 |    80 | 2026-03-01 |
+|        8 |          2 |          4 |    85 | 2026-03-01 |
+|        9 |          3 |          1 |    45 | 2026-03-01 |
+|       10 |          3 |          2 |    50 | 2026-03-01 |
+|       11 |          3 |          3 |    55 | 2026-03-01 |
+|       12 |          3 |          4 |    40 | 2026-03-01 |
+|       13 |          4 |          1 |    88 | 2026-03-01 |
+|       14 |          4 |          2 |    92 | 2026-03-01 |
+|       15 |          4 |          3 |    85 | 2026-03-01 |
+|       16 |          4 |          4 |    90 | 2026-03-01 |
+|       17 |          5 |          1 |    60 | 2026-03-01 |
+|       18 |          5 |          2 |    65 | 2026-03-01 |
+|       19 |          5 |          3 |    70 | 2026-03-01 |
+|       20 |          5 |          4 |    62 | 2026-03-01 |
+|       21 |          1 |          1 |    92 | 2026-04-01 |
+|       22 |          1 |          2 |    85 | 2026-04-01 |
++----------+------------+------------+-------+------------+
+
+mysql> alter table marks rename column merks_id to marks_id;
+
+mysql> select * from marks;
++----------+------------+------------+-------+------------+
+| marks_id | student_id | subject_id | score | test_date  |
++----------+------------+------------+-------+------------+
+|        1 |          1 |          1 |    85 | 2026-03-01 |
+|        2 |          1 |          2 |    78 | 2026-03-01 |
+|        3 |          1 |          3 |    92 | 2026-03-01 |
+|        4 |          1 |          4 |    70 | 2026-03-01 |
+|        5 |          2 |          1 |    95 | 2026-03-01 |
+|        6 |          2 |          2 |    88 | 2026-03-01 |
+|        7 |          2 |          3 |    80 | 2026-03-01 |
+|        8 |          2 |          4 |    85 | 2026-03-01 |
+|        9 |          3 |          1 |    45 | 2026-03-01 |
+|       10 |          3 |          2 |    50 | 2026-03-01 |
+|       11 |          3 |          3 |    55 | 2026-03-01 |
+|       12 |          3 |          4 |    40 | 2026-03-01 |
+|       13 |          4 |          1 |    88 | 2026-03-01 |
+|       14 |          4 |          2 |    92 | 2026-03-01 |
+|       15 |          4 |          3 |    85 | 2026-03-01 |
+|       16 |          4 |          4 |    90 | 2026-03-01 |
+|       17 |          5 |          1 |    60 | 2026-03-01 |
+|       18 |          5 |          2 |    65 | 2026-03-01 |
+|       19 |          5 |          3 |    70 | 2026-03-01 |
+|       20 |          5 |          4 |    62 | 2026-03-01 |
+|       21 |          1 |          1 |    92 | 2026-04-01 |
+|       22 |          1 |          2 |    85 | 2026-04-01 |
++----------+------------+------------+-------+------------+
+
