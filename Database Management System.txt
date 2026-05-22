@@ -735,3 +735,129 @@ mysql> select * from marks;
 |       22 |          1 |          2 |    85 | 2026-04-01 |
 +----------+------------+------------+-------+------------+
 
+// 22-05-2026 //
+mysql> create database if not exists mdb;
+
+mysql> use mdb;
+Database changed
+mysql> create table department(dept_id int primary key, dept_name varchar(50));
+
+mysql> create table cities(city_id int primary key, city_name varchar(50));
+
+mysql> create table employees(emp_id int primary key, emp_name varchar(100), dept_id int, city_id int, foreign key(dept_id) references department(dept_id), foreign key(city_id) references cities(city_id));
+
+mysql> select * from department;
+
+mysql> describe department;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| dept_id   | int         | NO   | PRI | NULL    |       |
+| dept_name | varchar(50) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+
+mysql> insert into department(dept_id, dept_name) values
+    -> (1, "Engineer"),
+    -> (2, "HR"),
+    -> (3, "Finance"),
+    -> (4, "Marketing");
+
+mysql> insert into cities(city_id, city_name) values
+    -> (101, "Mumbai"),
+    -> (102, "Delhi"),
+    -> (103, "Benglore"),
+    -> (104, "Pune");
+
+mysql> insert into employees(emp_id, emp_name, dept_id, city_id) values
+    -> (1, "Krupesh", 1, 101),
+    -> (2, "Vraj", 2, 102),
+    -> (3, "Parth", 3,  101),
+    -> (4, "Harsh", 1, 103),
+    -> (5, "Dhruv", NULL, 104),
+    -> (6, "Bhavy", 2, 102),
+    -> (7, "Kartik", 3, 103),
+    -> (8, "Sayli", 1, NULL),
+    -> (9, "Prapti", 4, 103),
+    -> (10, "Esha", NULL, NULL);
+
+mysql> select * from department;
++---------+-----------+
+| dept_id | dept_name |
++---------+-----------+
+|       1 | Engineer  |
+|       2 | HR        |
+|       3 | Finance   |
+|       4 | Marketing |
++---------+-----------+
+
+mysql> select * from cities;
++---------+-----------+
+| city_id | city_name |
++---------+-----------+
+|     101 | Mumbai    |
+|     102 | Delhi     |
+|     103 | Benglore  |
+|     104 | Pune      |
++---------+-----------+
+
+mysql> select * from employees;
++--------+----------+---------+---------+
+| emp_id | emp_name | dept_id | city_id |
++--------+----------+---------+---------+
+|      1 | Krupesh  |       1 |     101 |
+|      2 | Vraj     |       2 |     102 |
+|      3 | Parth    |       3 |     101 |
+|      4 | Harsh    |       1 |     103 |
+|      5 | Dhruv    |    NULL |     104 |
+|      6 | Bhavy    |       2 |     102 |
+|      7 | Kartik   |       3 |     103 |
+|      8 | Sayli    |       1 |    NULL |
+|      9 | Prapti   |       4 |     103 |
+|     10 | Esha     |    NULL |    NULL |
++--------+----------+---------+---------+
+
+mysql> select emp.emp_name, dept.dept_name from employees emp inner join department dept on emp.dept_id = dept.dept_id;
++----------+-----------+
+| emp_name | dept_name |
++----------+-----------+
+| Krupesh  | Engineer  |
+| Harsh    | Engineer  |
+| Sayli    | Engineer  |
+| Vraj     | HR        |
+| Bhavy    | HR        |
+| Parth    | Finance   |
+| Kartik   | Finance   |
+| Prapti   | Marketing |
++----------+-----------+
+8 rows in set (0.00 sec)
+
+mysql> select emp.emp_name, dept.dept_name from employees emp left join department dept on emp.dept_id = dept.dept_id;
++----------+-----------+
+| emp_name | dept_name |
++----------+-----------+
+| Krupesh  | Engineer  |
+| Vraj     | HR        |
+| Parth    | Finance   |
+| Harsh    | Engineer  |
+| Dhruv    | NULL      |
+| Bhavy    | HR        |
+| Kartik   | Finance   |
+| Sayli    | Engineer  |
+| Prapti   | Marketing |
+| Esha     | NULL      |
++----------+-----------+
+
+mysql> select emp.emp_name, dept.dept_name from employees emp right join department dept on emp.dept_id = dept.dept_id;
++----------+-----------+
+| emp_name | dept_name |
++----------+-----------+
+| Krupesh  | Engineer  |
+| Harsh    | Engineer  |
+| Sayli    | Engineer  |
+| Vraj     | HR        |
+| Bhavy    | HR        |
+| Parth    | Finance   |
+| Kartik   | Finance   |
+| Prapti   | Marketing |
++----------+-----------+
+
