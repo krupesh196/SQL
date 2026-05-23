@@ -861,3 +861,177 @@ mysql> select emp.emp_name, dept.dept_name from employees emp right join departm
 | Prapti   | Marketing |
 +----------+-----------+
 
+// 23-05-2026 //
+mysql> create database employee;
+
+mysql> use employee;
+Database changed
+mysql> create table employees(empid int primary key auto_increment, empname varchar(50), age int, salary float);
+
+mysql> describe employees;
++---------+-------------+------+-----+---------+----------------+
+| Field   | Type        | Null | Key | Default | Extra          |
++---------+-------------+------+-----+---------+----------------+
+| empid   | int         | NO   | PRI | NULL    | auto_increment |
+| empname | varchar(50) | YES  |     | NULL    |                |
+| age     | int         | YES  |     | NULL    |                |
+| salary  | float       | YES  |     | NULL    |                |
++---------+-------------+------+-----+---------+----------------+
+
+mysql> rename table employees to employee;
+
+mysql> describe employee;
++---------+-------------+------+-----+---------+----------------+
+| Field   | Type        | Null | Key | Default | Extra          |
++---------+-------------+------+-----+---------+----------------+
+| empid   | int         | NO   | PRI | NULL    | auto_increment |
+| empname | varchar(50) | YES  |     | NULL    |                |
+| age     | int         | YES  |     | NULL    |                |
+| salary  | float       | YES  |     | NULL    |                |
++---------+-------------+------+-----+---------+----------------+
+
+mysql> show tables;
++--------------------+
+| Tables_in_employee |
++--------------------+
+| employee           |
++--------------------+
+
+mysql> alter table employee add column doj datetime default current_timestamp;
+
+mysql> describe employee;
++---------+-------------+------+-----+-------------------+-------------------+
+| Field   | Type        | Null | Key | Default           | Extra             |
++---------+-------------+------+-----+-------------------+-------------------+
+| empid   | int         | NO   | PRI | NULL              | auto_increment    |
+| empname | varchar(50) | YES  |     | NULL              |                   |
+| age     | int         | YES  |     | NULL              |                   |
+| salary  | float       | YES  |     | NULL              |                   |
+| doj     | datetime    | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++---------+-------------+------+-----+-------------------+-------------------+
+
+mysql> insert into employee(empname, age, salary) values
+    -> ("Krupesh", 21, 13000);
+
+mysql> select * from employee;
++-------+---------+------+--------+---------------------+
+| empid | empname | age  | salary | doj                 |
++-------+---------+------+--------+---------------------+
+|     1 | Krupesh |   21 |  13000 | 2026-05-23 11:31:17 |
++-------+---------+------+--------+---------------------+
+
+mysql> alter table employee add column dob date, add column mobile bigint, add column email varchar(50);
+
+mysql> show tables;
++--------------------+
+| Tables_in_employee |
++--------------------+
+| employee           |
++--------------------+
+
+mysql> describe employee;
++---------+-------------+------+-----+-------------------+-------------------+
+| Field   | Type        | Null | Key | Default           | Extra             |
++---------+-------------+------+-----+-------------------+-------------------+
+| empid   | int         | NO   | PRI | NULL              | auto_increment    |
+| empname | varchar(50) | YES  |     | NULL              |                   |
+| age     | int         | YES  |     | NULL              |                   |
+| salary  | float       | YES  |     | NULL              |                   |
+| doj     | datetime    | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
+| dob     | date        | YES  |     | NULL              |                   |
+| mobile  | bigint      | YES  |     | NULL              |                   |
+| email   | varchar(50) | YES  |     | NULL              |                   |
++---------+-------------+------+-----+-------------------+-------------------+
+
+mysql> alter table employee drop column doj, drop column dob, drop column mobile;
+
+mysql> describe employee;
++---------+-------------+------+-----+---------+----------------+
+| Field   | Type        | Null | Key | Default | Extra          |
++---------+-------------+------+-----+---------+----------------+
+| empid   | int         | NO   | PRI | NULL    | auto_increment |
+| empname | varchar(50) | YES  |     | NULL    |                |
+| age     | int         | YES  |     | NULL    |                |
+| salary  | float       | YES  |     | NULL    |                |
+| email   | varchar(50) | YES  |     | NULL    |                |
++---------+-------------+------+-----+---------+----------------+
+
+mysql> alter table employee modify column email varchar(50) unique;
+
+mysql> describe employee;
++---------+-------------+------+-----+---------+----------------+
+| Field   | Type        | Null | Key | Default | Extra          |
++---------+-------------+------+-----+---------+----------------+
+| empid   | int         | NO   | PRI | NULL    | auto_increment |
+| empname | varchar(50) | YES  |     | NULL    |                |
+| age     | int         | YES  |     | NULL    |                |
+| salary  | float       | YES  |     | NULL    |                |
+| email   | varchar(50) | YES  | UNI | NULL    |                |
++---------+-------------+------+-----+---------+----------------+
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| employee           |
+| information_schema |
+| mdb                |
+| mysql              |
+| performance_schema |
+| sakila             |
+| student            |
+| student_data       |
+| sys                |
+| world              |
++--------------------+
+
+mysql>  create database if not exists department;
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| department         |
+| employee           |
+| information_schema |
+| mdb                |
+| mysql              |
+| performance_schema |
+| sakila             |
+| student            |
+| student_data       |
+| sys                |
+| world              |
++--------------------+
+
+mysql> use department;
+Database changed
+mysql> create table department(DepartmentID int primary key, DepartName varchar(50) NOT NULL, Location varchar(50), BudgetInLakhs int);
+
+mysql> create table Employees(EmployeeID int primary key, EmpName varchar(50) NOT NULL, City varchar(50), DeptID int);
+
+mysql> rename table department to Department1;
+
+mysql> rename table Department1 to Department;
+
+mysql> show tables;
++----------------------+
+| Tables_in_department |
++----------------------+
+| department           |
+| employees            |
++----------------------+
+
+mysql> insert into Department(DepartmentID, DepartName, Location, BudgetInLakhs) values
+    -> (10, 'Enginnering', 'Bengaluru', 50),
+    -> (20, 'Marketing', 'Mumbai', 25),
+    -> (30, 'Human Resources', 'Delhi', 15),
+    -> (40, 'Data Science', 'Hyderabad', 40);
+
+mysql> insert into Employees(EmployeeID, EmpName, City, DeptID) values
+    -> (101, 'Aarav Sharma', 'Delhi', 10),
+    -> (102, 'Priya Patel', 'Mumbai', 20),
+    -> (103, 'Amit Mishra', 'Bengaluru', 10),
+    -> (104, 'Ananya Iyer', 'Chennai', 30),
+    -> (105, 'Rohan Das', 'Kolkata', NULL);
+
