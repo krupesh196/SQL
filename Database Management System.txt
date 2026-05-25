@@ -1108,3 +1108,10 @@ mysql> select m.emp_name as `Manager Name`, count(e.emp_id) as team_size from em
 | Rajesh Kumar  |         1 |
 +---------------+-----------+
 
+mysql> select e1.department, e1.salary, count(*) as team_data from employees e1 inner join employees e2 on e1.department = e2.department and e1.salary = e2.salary and e1.emp_id <> e2.emp_id group by e1.department, e1.salary having team_data > 1;
++------------+--------+-----------+
+| department | salary | team_data |
++------------+--------+-----------+
+| IT         |  85000 |         6 |
++------------+--------+-----------+
+
