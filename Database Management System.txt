@@ -1115,3 +1115,18 @@ mysql> select e1.department, e1.salary, count(*) as team_data from employees e1 
 | IT         |  85000 |         6 |
 +------------+--------+-----------+
 
+// 26-05-2026 //
+mysql> select m.emp_name as `Manager Name`, sum(e.salary) as team_payroll from employees e inner join employees m on e.manager_id = m.emp_id group by m.emp_name having team_payroll > 200000;
++---------------+--------------+
+| Manager Name  | team_payroll |
++---------------+--------------+
+| Arvind Sharma |       424000 |
++---------------+--------------+
+
+mysql> select m.emp_name as `Manager Name`, count(e.emp_id) as team_count, min(e.salary) as lowest_team_salary, sum(e.salary) as team_payroll from employees e inner join employees m on e.manager_id = m.emp_id group by m.emp_name having team_payroll > 200000;
++---------------+------------+--------------------+--------------+
+| Manager Name  | team_count | lowest_team_salary | team_payroll |
++---------------+------------+--------------------+--------------+
+| Arvind Sharma |          4 |              90000 |       424000 |
++---------------+------------+--------------------+--------------+
+
