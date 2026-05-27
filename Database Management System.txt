@@ -1130,3 +1130,124 @@ mysql> select m.emp_name as `Manager Name`, count(e.emp_id) as team_count, min(e
 | Arvind Sharma |          4 |              90000 |       424000 |
 +---------------+------------+--------------------+--------------+
 
+// 27-05-2026 //
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| department         |
+| employee           |
+| information_schema |
+| mdb                |
+| mysql              |
+| performance_schema |
+| sakila             |
+| student            |
+| student_data       |
+| sys                |
+| world              |
++--------------------+
+
+mysql> use mdb;
+Database changed
+mysql> create table patients(patientid int primary key auto_increment, name varchar(35), dataOfDateBirth date not null, lastVisitDate date not null, nectVisistDate date);
+
+mysql> insert into patients values(1001, "Rudra", '1991-12-31', '2012-01-20', NULL);
+
+mysql> select * from patients;
++-----------+-------+-----------------+---------------+----------------+
+| patientid | name  | dataOfDateBirth | lastVisitDate | nectVisistDate |
++-----------+-------+-----------------+---------------+----------------+
+|      1001 | Rudra | 1991-12-31      | 2012-01-20    | NULL           |
++-----------+-------+-----------------+---------------+----------------+
+
+mysql> insert into patients values(NULL, "Vidhi", '2011-10-29', '2012-09-20', NULL);
+
+mysql> insert into patients values(NULL, "Krupesh", '2011-10-30', curdate(), NULL);
+
+mysql> select * from patients;
++-----------+---------+-----------------+---------------+----------------+
+| patientid | name    | dataOfDateBirth | lastVisitDate | nectVisistDate |
++-----------+---------+-----------------+---------------+----------------+
+|      1001 | Rudra   | 1991-12-31      | 2012-01-20    | NULL           |
+|      1002 | Vidhi   | 2011-10-29      | 2012-09-20    | NULL           |
+|      1003 | Krupesh | 2011-10-30      | 2026-05-27    | NULL           |
++-----------+---------+-----------------+---------------+----------------+
+
+mysql> select date_format('2023-05-23', '%m/%d/%Y') as `Date`;
++------------+
+| Date       |
++------------+
+| 05/23/2023 |
++------------+
+
+mysql> select date_format('2023-05-23', '%c/%e/%y') as `Date`;
++---------+
+| Date    |
++---------+
+| 5/23/23 |
++---------+
+
+mysql> select date_format('2026-05-27', '%d/%m/%Y') as `Date`;
++------------+
+| Date       |
++------------+
+| 27/05/2026 |
++------------+
+
+mysql> select date_format('2026-05-27', '%Y.%m.%d') as `Date`;
++------------+
+| Date       |
++------------+
+| 2026.05.27 |
++------------+
+
+mysql> select date_format('2026-05-27', '%Y - %m') as `Date`;
++-----------+
+| Date      |
++-----------+
+| 2026 - 05 |
++-----------+
+
+mysql> select date_format('2026-05-27', '%m - %Y') as `Date`;
++-----------+
+| Date      |
++-----------+
+| 05 - 2026 |
++-----------+
+
+mysql> select date_format('2026-05-27', '%m - %d') as `Date`;
++---------+
+| Date    |
++---------+
+| 05 - 27 |
++---------+
+
+mysql> select date_format('2026-05-27', '%Y - %M') as `Date`;
++------------+
+| Date       |
++------------+
+| 2026 - May |
++------------+
+
+mysql> select date_format('2026-05-27', '%M - %d') as `Date`;
++----------+
+| Date     |
++----------+
+| May - 27 |
++----------+
+
+mysql> select date_format('2026-05-27', '%M - %Y') as `Date`;
++------------+
+| Date       |
++------------+
+| May - 2026 |
++------------+
+
+mysql> select date_format('2026-05-27', '%d - %M - %Y') as `Date`;
++-----------------+
+| Date            |
++-----------------+
+| 27 - May - 2026 |
++-----------------+
+
