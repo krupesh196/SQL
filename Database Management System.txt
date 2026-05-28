@@ -1251,3 +1251,96 @@ mysql> select date_format('2026-05-27', '%d - %M - %Y') as `Date`;
 | 27 - May - 2026 |
 +-----------------+
 
+// 28-05-2026 //
+
+Event :
+What is an Event?
+
+Triggers : 
+
+DML : Data Manipulation Language : Isert, update, Delete, Call, explain cal
+
+Insert : before, after
+Update : before, after
+Delete : before, after
+
+syntax : 
+
+numpy : python library
+
+tenserflow : 
+
+scaler : numerica representation : 25
+vector : numerical + direction
+y = mx + c
+
+tensor :
+ 
+array : 
+1 Dimensional
+2 Dimensional
+3 Dimensional
+multidimensional
+
+Store Procedure 
+
+delimiter //
+create procedure getData()
+begin
+select * from patients;
+end
+//
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| department         |
+| employee           |
+| information_schema |
+| mdb                |
+| mysql              |
+| performance_schema |
+| sakila             |
+| student            |
+| student_data       |
+| sys                |
+| world              |
++--------------------+
+
+mysql> use mdb;
+Database changed
+mysql> show tables;
++---------------+
+| Tables_in_mdb |
++---------------+
+| employees     |
+| patients      |
++---------------+
+
+mysql> select * from patients;
++-----------+---------+-----------------+---------------+----------------+
+| patientid | name    | dataOfDateBirth | lastVisitDate | nectVisistDate |
++-----------+---------+-----------------+---------------+----------------+
+|      1001 | Rudra   | 1991-12-31      | 2012-01-20    | NULL           |
+|      1002 | Vidhi   | 2011-10-29      | 2012-09-20    | NULL           |
+|      1003 | Krupesh | 2011-10-30      | 2026-05-27    | NULL           |
++-----------+---------+-----------------+---------------+----------------+
+
+mysql> delimiter //
+mysql> create procedure getData()
+    -> begin
+    -> select * from patients;
+    -> end
+    -> //
+
+mysql> delimiter ;
+mysql> call getData();
++-----------+---------+-----------------+---------------+----------------+
+| patientid | name    | dataOfDateBirth | lastVisitDate | nectVisistDate |
++-----------+---------+-----------------+---------------+----------------+
+|      1001 | Rudra   | 1991-12-31      | 2012-01-20    | NULL           |
+|      1002 | Vidhi   | 2011-10-29      | 2012-09-20    | NULL           |
+|      1003 | Krupesh | 2011-10-30      | 2026-05-27    | NULL           |
++-----------+---------+-----------------+---------------+----------------+
+
