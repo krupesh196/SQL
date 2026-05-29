@@ -1344,3 +1344,40 @@ mysql> call getData();
 |      1003 | Krupesh | 2011-10-30      | 2026-05-27    | NULL           |
 +-----------+---------+-----------------+---------------+----------------+
 
+// 29-05-2026 //
+
+mysql> create table employees1(id int, name varchar(50), age int, salary int, department varchar(50));
+
+mysql> describe employees1;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| id         | int         | YES  |     | NULL    |       |
+| name       | varchar(50) | YES  |     | NULL    |       |
+| age        | int         | YES  |     | NULL    |       |
+| salary     | int         | YES  |     | NULL    |       |
+| department | varchar(50) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+
+mysql> load data infile "C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/mydata.csv"
+    -> into table employees1
+    -> fields terminated by ","
+    -> enclosed by '"'
+    -> lines terminated by "\r\n"
+    -> ignore 1 rows;
+
+mysql> select * from employees1;
++------+---------+------+---------+------------+
+| id   | name    | age  | salary  | department |
++------+---------+------+---------+------------+
+|  101 | Ram     |   21 |   25000 | IT         |
+|  102 | Raj     |   22 |   32000 | HR         |
+|  103 | Rakesh  |   23 |   26000 | Finance    |
+|  104 | Lokesh  |   21 |   34000 | IT         |
+|  105 | Divya   |   24 |   65000 | DA         |
+|  106 | Asvini  |   21 |   68000 | DS         |
+|  107 | Vidhi   |   25 |   74000 | ML         |
+|  108 | Nandini |   26 |   98000 | AI         |
+|  109 | Rudra   |   36 | 1500000 | Python     |
++------+---------+------+---------+------------+
+
