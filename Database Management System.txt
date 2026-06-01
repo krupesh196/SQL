@@ -1381,3 +1381,43 @@ mysql> select * from employees1;
 |  109 | Rudra   |   36 | 1500000 | Python     |
 +------+---------+------+---------+------------+
 
+
+// 01-06-2026 //
+csv : comma seperated value
+json : javascript object notation
+
+API : Application Programming Interface
+
+REST API : Representational State Transfer Application Programming Interface
+
+Numeric : 
+
+String : 
+
+Set : Collection of unique data : [Travelling]
+
+Enum : []
+
+Date and Time :
+
+Json : 
+
+FAST API : 
+
+Common Table Expressions : 
+
+Windows Functions : 
+
+Event : 
+
+An Event is a planned, organized occusion (such as a festival, concert, or conference) taking place at a specific location and time.
+
+Triggers : 
+
+Insert : Before, After
+Update : Before, After
+Delete : Before, After
+
+delimiter //
+
+//
