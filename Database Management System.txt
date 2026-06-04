@@ -1601,3 +1601,227 @@ mysql> show tables;
 | employees            |
 +----------------------+
 
+// 04-06-2026 //
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| corporates         |
+| department         |
+| employee           |
+| information_schema |
+| mdb                |
+| mysql              |
+| org                |
+| performance_schema |
+| sakila             |
+| student            |
+| student_data       |
+| sys                |
+| world              |
++--------------------+
+
+mysql> use corporates;
+Database changed
+mysql> show tables;
++----------------------+
+| Tables_in_corporates |
++----------------------+
+| audit                |
+| employees            |
++----------------------+
+
+mysql> delimiter //
+mysql> create trigger employees_ai after insert on employees
+    -> for each row
+    -> begin
+    -> insert into audit(emp_id, action_performed, old_details, new_details) values
+    -> (new.emp_id, 'INSERT', NULL, concat('Name: ', new.emp_name, 'Salary: ', new.salary));
+    -> end
+    -> //
+
+
+mysql> delimiter ;
+mysql> insert into employees(emp_name, designation, salary) values
+    -> ("Divya", 'Software Analyst', 75000.00),
+    -> ("Sakshi", 'Data Analyst', 65000.00),
+    -> ("Rudra", 'Health Care Analyst', 85000.00);
+
+mysql> select * from employees;
++--------+----------+---------------------+----------+---------------------+
+| emp_id | emp_name | designation         | salary   | last_modified       |
++--------+----------+---------------------+----------+---------------------+
+|      1 | Divya    | Software Analyst    | 75000.00 | 2026-06-04 11:41:22 |
+|      2 | Sakshi   | Data Analyst        | 65000.00 | 2026-06-04 11:41:22 |
+|      3 | Rudra    | Health Care Analyst | 85000.00 | 2026-06-04 11:41:22 |
++--------+----------+---------------------+----------+---------------------+
+
+mysql> select * from audit;
++--------+--------+------------------+-------------+------------------------------+---------------------+
+| lig_id | emp_id | action_performed | old_details | new_details                  | action_timestamp    |
++--------+--------+------------------+-------------+------------------------------+---------------------+
+|      1 |      1 | INSERT           | NULL        | Name: DivyaSalary: 75000.00  | 2026-06-04 11:41:22 |
+|      2 |      2 | INSERT           | NULL        | Name: SakshiSalary: 65000.00 | 2026-06-04 11:41:22 |
+|      3 |      3 | INSERT           | NULL        | Name: RudraSalary: 85000.00  | 2026-06-04 11:41:22 |
++--------+--------+------------------+-------------+------------------------------+---------------------+
+
+mysql> truncate table audit;
+
+mysql> insert into employees(emp_name, designation, salary) values
+    -> ("Divya", 'Software Analyst', 75000.00),
+    -> ("Sakshi", 'Data Analyst', 65000.00),
+    -> ("Rudra", 'Health Care Analyst', 85000.00);
+
+mysql> select * from employees;
++--------+----------+---------------------+----------+---------------------+
+| emp_id | emp_name | designation         | salary   | last_modified       |
++--------+----------+---------------------+----------+---------------------+
+|      1 | Divya    | Software Analyst    | 75000.00 | 2026-06-04 11:41:22 |
+|      2 | Sakshi   | Data Analyst        | 65000.00 | 2026-06-04 11:41:22 |
+|      3 | Rudra    | Health Care Analyst | 85000.00 | 2026-06-04 11:41:22 |
+|      4 | Divya    | Software Analyst    | 75000.00 | 2026-06-04 11:48:56 |
+|      5 | Sakshi   | Data Analyst        | 65000.00 | 2026-06-04 11:48:56 |
+|      6 | Rudra    | Health Care Analyst | 85000.00 | 2026-06-04 11:48:56 |
++--------+----------+---------------------+----------+---------------------+
+
+mysql> select * from audit;
++--------+--------+------------------+-------------+------------------------------+---------------------+
+| lig_id | emp_id | action_performed | old_details | new_details                  | action_timestamp    |
++--------+--------+------------------+-------------+------------------------------+---------------------+
+|      1 |      4 | INSERT           | NULL        | Name: DivyaSalary: 75000.00  | 2026-06-04 11:48:56 |
+|      2 |      5 | INSERT           | NULL        | Name: SakshiSalary: 65000.00 | 2026-06-04 11:48:56 |
+|      3 |      6 | INSERT           | NULL        | Name: RudraSalary: 85000.00  | 2026-06-04 11:48:56 |
++--------+--------+------------------+-------------+------------------------------+---------------------+
+
+mysql> drop database corporates;
+
+mysql> create database corporate;
+
+mysql> use corporate;
+Database changed
+
+mysql> create table employees(
+    -> emp_id int auto_increment primary key,
+    -> emp_name varchar(100) not null,
+    -> salary decimal(10, 2),
+    ->  last_modified timestamp default current_timestamp on update current_timestamp
+    -> );
+
+mysql> create table audit(
+    -> log_id int auto_increment primary key,
+    -> emp_id int,
+    -> action_performed varchar(20),
+    -> old_details text,
+    -> new_details text,
+    -> action_timestamp timestamp default current_timestamp
+    -> );
+
+mysql> delimiter //
+mysql> create trigger employee_ai
+    -> after insert on employees
+    -> for each row
+    -> begin
+    -> insert into audit(emp_id, action_performed, old_details, new_details) values
+    -> (new.emp_id, 'INSERT', NULL, concat('Name: ', new.emp_name, 'Salary: ', new.salary));
+    -> end
+    -> //
+
+mysql> delimiter ;
+
+mysql> delimiter //
+mysql> create trigger employees_bu
+    -> before update on employees
+    -> for each row
+    -> begin
+    -> insert into audit(emp_id, action_performed, old_details, new_details) values
+    -> (old.emp_id, 'UPDATE', concat('Old Salary: ', old.salary),
+    -> concat('New Salary: ', new.salary));
+    -> end
+    -> //
+
+mysql> delimiter ;
+
+mysql> alter table employees add designation varchar(50);
+
+mysql> delimiter //
+mysql> create trigger employees_ad
+    -> after delete on employees
+    -> for each row
+    -> begin
+    -> insert into audit_log(emp_id, action_performed, old_details, new_details) values
+    -> (old.emp_id, 'DELETE', concat('Name: ', old.emp_name, 'Designation: ', old.designation),NULL);
+    -> end
+    -> //
+
+mysql> delimiter ;
+
+mysql> insert into employees(emp_name, designation, salary) values
+    -> ('Vidhi', 'Software Engineer', 75000.00),
+    -> ('Ashvenkat', 'Data Analyst', 62000.00),
+    -> ('Krupesh', 'HR Manager', 55000.00);
+
+mysql> select * from employees;
++--------+-----------+----------+---------------------+-------------------+
+| emp_id | emp_name  | salary   | last_modified       | designation       |
++--------+-----------+----------+---------------------+-------------------+
+|      1 | Vidhi     | 75000.00 | 2026-06-04 12:35:19 | Software Engineer |
+|      2 | Ashvenkat | 62000.00 | 2026-06-04 12:35:19 | Data Analyst      |
+|      3 | Krupesh   | 55000.00 | 2026-06-04 12:35:19 | HR Manager        |
++--------+-----------+----------+---------------------+-------------------+
+
+mysql> select action_performed, new_details from audit;
++------------------+---------------------------------+
+| action_performed | new_details                     |
++------------------+---------------------------------+
+| INSERT           | Name: VidhiSalary: 75000.00     |
+| INSERT           | Name: AshvenkatSalary: 62000.00 |
+| INSERT           | Name: KrupeshSalary: 55000.00   |
++------------------+---------------------------------+
+
+mysql> update employees
+    -> set salary = 70000.00, designation = 'senior data analyst'
+    ->
+    -> where emp_name = 'priya patel';
+
+mysql> select action_performed, old_details, new_details from audit where action_performed = 'update';
+
+mysql> delete from employees where emp_name = 'amit verma';
+
+mysql> select * from employees;
++--------+-----------+----------+---------------------+-------------------+
+| emp_id | emp_name  | salary   | last_modified       | designation       |
++--------+-----------+----------+---------------------+-------------------+
+|      1 | Vidhi     | 75000.00 | 2026-06-04 12:35:19 | Software Engineer |
+|      2 | Ashvenkat | 62000.00 | 2026-06-04 12:35:19 | Data Analyst      |
+|      3 | Krupesh   | 55000.00 | 2026-06-04 12:35:19 | HR Manager        |
++--------+-----------+----------+---------------------+-------------------+
+
+mysql> select action_performed, old_details from audit where action_performed = 'delete';
+
+mysql> delimiter //
+mysql>  create procedure addemployee(
+    -> in p_emp_name varchar(100),
+    -> in p_designation varchar(50),
+    -> in p_salary decimal(10, 2)
+    -> )
+    -> begin
+    -> insert into employees(emp_name, designation, salary)
+    -> values (p_emp_name, p_designation, p_salary);
+    -> end
+    -> //
+
+mysql> delimiter ;
+
+mysql>  call addemployee('rohan das', 'devops engineer', 82000.00);
+
+mysql> select * from employees;
++--------+-----------+----------+---------------------+-------------------+
+| emp_id | emp_name  | salary   | last_modified       | designation       |
++--------+-----------+----------+---------------------+-------------------+
+|      1 | Vidhi     | 75000.00 | 2026-06-04 12:35:19 | Software Engineer |
+|      2 | Ashvenkat | 62000.00 | 2026-06-04 12:35:19 | Data Analyst      |
+|      3 | Krupesh   | 55000.00 | 2026-06-04 12:35:19 | HR Manager        |
+|      4 | rohan das | 82000.00 | 2026-06-04 12:46:21 | devops engineer   |
++--------+-----------+----------+---------------------+-------------------+
+
