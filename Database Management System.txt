@@ -2091,3 +2091,67 @@ Delimiter //
 
 //
 
+// 09-06-2026 //
+
+mysql> create database ndb;
+
+mysql> use ndb;
+Database changed
+mysql> create table students(id int primary key auto_increment, name varchar(50), age int, marks int);
+
+mysql> create table student_audit(audit_id int primary key auto_increment, student_id int, deleted_name varchar(100), deleted_at timestamp default current_timestamp);
+
+mysql> insert into students(name, age, marks) values
+    -> ("Sakshi", 20, 85),
+    -> ("Krupesh", 21, 86),
+    -> ("Vidhi", 22, 89);
+
+mysql> select * from students;
++----+---------+------+-------+
+| id | name    | age  | marks |
++----+---------+------+-------+
+|  1 | Sakshi  |   20 |    85 |
+|  2 | Krupesh |   21 |    86 |
+|  3 | Vidhi   |   22 |    89 |
++----+---------+------+-------+
+
+mysql> delimiter //
+mysql> create trigger student_ad after delete on students
+    -> for each row
+    -> begin
+    -> insert into student_audit(student_id, deleted_name) values
+    -> (old.id, old.name);
+    -> end
+    -> //
+
+mysql> delimiter ;
+
+mysql> delete from students where name = "Vidhi";
+
+mysql> select * from students;
++----+---------+------+-------+
+| id | name    | age  | marks |
++----+---------+------+-------+
+|  1 | Sakshi  |   20 |    85 |
+|  2 | Krupesh |   21 |    86 |
++----+---------+------+-------+
+
+mysql> select * from student_audit;
++----------+------------+--------------+---------------------+
+| audit_id | student_id | deleted_name | deleted_at          |
++----------+------------+--------------+---------------------+
+|        1 |          3 | Vidhi        | 2026-06-09 11:20:41 |
++----------+------------+--------------+---------------------+
+
+mysql> delimiter //
+mysql> create trigger student_bd before delete on students
+    -> for each row
+    -> if old. marks > 85 then
+    -> signal sqlstate '45000' set message_text = "Restrict the delete";
+    -> end if;
+    -> //
+
+mysql> delimiter ;
+mysql> delete from students where name = "Krupesh";
+ERROR 1644 (45000): Restrict the delete
+
