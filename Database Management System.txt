@@ -2155,3 +2155,69 @@ mysql> delimiter ;
 mysql> delete from students where name = "Krupesh";
 ERROR 1644 (45000): Restrict the delete
 
+// 10-06-2026 //
+mysql> use mdb;
+Database changed
+mysql> create table SalesTeam(emp_id int primary key auto_increment, FullName varchar(50), Region varchar(60), SalesAmount decimal(10, 2));
+
+mysql> describe SalesTeam;
++-------------+---------------+------+-----+---------+----------------+
+| Field       | Type          | Null | Key | Default | Extra          |
++-------------+---------------+------+-----+---------+----------------+
+| emp_id      | int           | NO   | PRI | NULL    | auto_increment |
+| FullName    | varchar(50)   | YES  |     | NULL    |                |
+| Region      | varchar(60)   | YES  |     | NULL    |                |
+| SalesAmount | decimal(10,2) | YES  |     | NULL    |                |
++-------------+---------------+------+-----+---------+----------------+
+
+mysql> insert into SalesTeam(FullName, Region, SalesAmount) values
+    -> ("Vidhi", "North", 55000), ("Rudra", "North", 62000), ("Parth", "South", 48000),
+    -> ("Krupesh", "South", 71000), ("Sakshi", "West", 58000), ("Divya", "West", 42000),
+    -> ("Hardik", "East", 33000), ("Elu", "East", 51000),
+    -> ("Sai", "South", 88000), ("Parisha", "North", 45000), ("Krishna", "East", 29000),
+    -> ("Zoya", "West", 75000), ("Reyansh", "North", 92000), ("Anaya", "West", 61000);
+
+mysql> select * from SalesTeam;
++--------+----------+--------+-------------+
+| emp_id | FullName | Region | SalesAmount |
++--------+----------+--------+-------------+
+|      1 | Vidhi    | North  |    55000.00 |
+|      2 | Rudra    | North  |    62000.00 |
+|      3 | Parth    | South  |    48000.00 |
+|      4 | Krupesh  | South  |    71000.00 |
+|      5 | Sakshi   | West   |    58000.00 |
+|      6 | Divya    | West   |    42000.00 |
+|      7 | Hardik   | East   |    33000.00 |
+|      8 | Elu      | East   |    51000.00 |
+|      9 | Sai      | South  |    88000.00 |
+|     10 | Parisha  | North  |    45000.00 |
+|     11 | Krishna  | East   |    29000.00 |
+|     12 | Zoya     | West   |    75000.00 |
+|     13 | Reyansh  | North  |    92000.00 |
+|     14 | Anaya    | West   |    61000.00 |
++--------+----------+--------+-------------+
+
+mysql> with RegionalPerformance as(
+    -> select FullName, Region, SalesAmount,
+    -> Rank() over(partition by region order by SalesAmount desc) as SalesRank,
+    -> AVG(SalesAmount) over(partition by region) as RegionalAvg,
+    -> sum(SalesAmount) over(order by SalesAmount desc) as RunningTotal from SalesTeam )
+    -> select * from RegionalPerformance;
++----------+--------+-------------+-----------+--------------+--------------+
+| FullName | Region | SalesAmount | SalesRank | RegionalAvg  | RunningTotal |
++----------+--------+-------------+-----------+--------------+--------------+
+| Reyansh  | North  |    92000.00 |         1 | 63500.000000 |     92000.00 |
+| Sai      | South  |    88000.00 |         1 | 69000.000000 |    180000.00 |
+| Zoya     | West   |    75000.00 |         1 | 59000.000000 |    255000.00 |
+| Krupesh  | South  |    71000.00 |         2 | 69000.000000 |    326000.00 |
+| Rudra    | North  |    62000.00 |         2 | 63500.000000 |    388000.00 |
+| Anaya    | West   |    61000.00 |         2 | 59000.000000 |    449000.00 |
+| Sakshi   | West   |    58000.00 |         3 | 59000.000000 |    507000.00 |
+| Vidhi    | North  |    55000.00 |         3 | 63500.000000 |    562000.00 |
+| Elu      | East   |    51000.00 |         1 | 37666.666667 |    613000.00 |
+| Parth    | South  |    48000.00 |         3 | 69000.000000 |    661000.00 |
+| Parisha  | North  |    45000.00 |         4 | 63500.000000 |    706000.00 |
+| Divya    | West   |    42000.00 |         4 | 59000.000000 |    748000.00 |
+| Hardik   | East   |    33000.00 |         2 | 37666.666667 |    781000.00 |
+| Krishna  | East   |    29000.00 |         3 | 37666.666667 |    810000.00 |
++----------+--------+-------------+-----------+--------------+--------------+
