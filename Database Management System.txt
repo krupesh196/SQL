@@ -2268,3 +2268,110 @@ mysql> insert into title(worker_ref_id, worker_title, affected_from) values
     -> (006, 'Lead', '2023-06-11 00:00:00'),
     -> (003, 'Lead', '2023-06-11 00:00:00');
 
+// 15-06-2026 //
+
+mysql> SELECT dept_id, COUNT(emp_id) AS total_employees
+    -> FROM Employees
+    -> GROUP BY dept_id;
++---------+-----------------+
+| dept_id | total_employees |
++---------+-----------------+
+|       1 |               1 |
+|       2 |               3 |
+|       3 |               3 |
++---------+-----------------+
+
+mysql> SELECT AVG(e.salary) AS avg_salary
+    -> FROM Employees e
+    -> JOIN Department d ON e.dept_id = d.dept_id
+    -> WHERE d.dept_name = 'Engineering';
++--------------+
+| avg_salary   |
++--------------+
+| 98333.333333 |
++--------------+
+
+mysql> SELECT *
+    -> FROM Sales
+    -> WHERE amount > 1500;
++---------+--------+------------+------------+----------+---------+
+| sale_id | emp_id | product_id | sale_date  | quantity | amount  |
++---------+--------+------------+------------+----------+---------+
+|       1 |    104 |          3 | 2024-01-10 |        5 | 2500.00 |
+|       2 |    105 |          1 | 2024-01-12 |        2 | 2400.00 |
++---------+--------+------------+------------+----------+---------+
+
+mysql> SELECT UPPER(emp_name) AS emp_name_upper,
+    ->        DATE_FORMAT(hire_date, '%Y-%m') AS formatted_hire_date
+    -> FROM Employees;
++----------------+---------------------+
+| emp_name_upper | formatted_hire_date |
++----------------+---------------------+
+| SONU           | 2021-01             |
+| RAM            | 2021-06             |
+| DHEER          | 2022-03             |
+| DAVID          | 2020-11             |
+| MONTU          | 2022-01             |
+| RUDRA          | 2023-05             |
+| NANDINI        | 2019-08             |
++----------------+---------------------+
+
+mysql> SELECT SUM(s.quantity) AS total_laptops_sold
+    -> FROM Sales s
+    -> JOIN Products p ON s.product_id = p.product_id
+    -> WHERE p.product_name = 'Laptop';
++--------------------+
+| total_laptops_sold |
++--------------------+
+|                  3 |
++--------------------+
+
+mysql> SELECT *
+    -> FROM Employees
+    -> WHERE emp_name LIKE 'E%';
+Empty set (0.01 sec)
+
+mysql> SELECT MAX(salary) AS max_salary, MIN(salary) AS min_salary
+    -> FROM Employees;
++------------+------------+
+| max_salary | min_salary |
++------------+------------+
+|  120000.00 |   70000.00 |
++------------+------------+
+
+mysql> SELECT product_id, product_name
+    -> FROM Products
+    -> WHERE product_id NOT IN (SELECT product_id FROM Sales);
+Empty set (0.01 sec)
+
+mysql> SELECT emp_id, SUM(amount) AS total_revenue
+    -> FROM Sales
+    -> GROUP BY emp_id
+    -> ORDER BY total_revenue DESC;
++--------+---------------+
+| emp_id | total_revenue |
++--------+---------------+
+|    104 |       4700.00 |
+|    105 |       3600.00 |
+|    106 |       1000.00 |
+|    102 |        500.00 |
++--------+---------------+
+
+Numpy Programming :
+Mumpy is library of python : used for mathematical computation
+
+import nunpy as np
+
+pip : python package installer
+pip (Package Installer for Python)
+
+PEP : Pyhton Enhancement Proposol
+
+Scaler : Only Single number : it has only magnitude : 25
+
+vector : it has magnitude and direction : 
+
+tensor : 
+
+cpu : central processing unit
+gpu : graphical processing unit
